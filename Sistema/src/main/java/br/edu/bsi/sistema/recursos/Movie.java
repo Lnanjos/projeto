@@ -13,32 +13,37 @@ public class Movie {
 		this.genres = genres;
 		this.runTime = runTime;
 	}
-	
-	public String getNome() {
+
+	public String getMovie() {
 		return movie;
 	}
-	public void setNome(String movie) {
+
+	public void setMovie(String movie) {
 		this.movie = movie;
 	}
-	public String getDiretor() {
+
+	public String getDirectedBy() {
 		return directedBy;
 	}
-	public void setDiretor(String directedBy) {
+
+	public void setDirectedBy(String directedBy) {
 		this.directedBy = directedBy;
 	}
-	public String getGenero() {
+
+	public String getGenres() {
 		return genres;
 	}
-	public void setGenero(String genres) {
+
+	public void setGenres(String genres) {
 		this.genres = genres;
 	}
-	public int getDur() {
+
+	public int getRunTime() {
 		return runTime;
 	}
-	public void setDur(int runTime) {
+
+	public void setRunTime(int runTime) {
 		this.runTime = runTime;
 	}
-	
-	
 	
 }
