@@ -32,7 +32,6 @@ public class Cropper {
 		ExternalContext externalContext = FacesContext.getCurrentInstance()
 				.getExternalContext();
 		String newFileName = externalContext.getRealPath("") + File.separator
-				+ "resources" + File.separator + "images" + File.separator
 				+ getNewImageName() + ".jpg";
 
 		FileImageOutputStream imageOutput;
