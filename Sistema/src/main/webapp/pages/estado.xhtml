@@ -9,46 +9,54 @@
 	<title>Estados</title>
 </h:head>
 <h:body>
-	<p:growl id="mensagem" />
 
+	<p:growl id="mensagem" />
+	<!-- id que identifica qual componente que sera atualizado, é identificado pelo nome formListagem -->
 	<h:form id="formListagem">
+		<!--criação do painel e nome do cabeçalho  -->
 		<p:panel header="Estados - Listagem">
+			<!-- criação das tabelas que recebera os dados do no banco de dados -->
 			<p:dataTable id="tabela" emptyMessage="Nenhum registro encontrado."
-				paginator="true" value="#{estadoBean.estados}" var="estado" rows="5">
-				<f:facet name="header">
+				paginator="true" value="#{estadoBean.estados}" var="estado">
+
+				<f:facet name="footer">
 					<p:commandButton value="Novo" oncomplete="PF('dialogo').show();"
 						actionListener="#{estadoBean.novo}" update=":formCadastro:painel" />
-					<p:commandButton icon="ui-icon-print"
-						actionListener="#{estadoBean.imprimir}" />
 				</f:facet>
 
-				<p:column headerText="Nome" sortBy="#{estado.nome}"
-					filterBy="#{estado.nome}">
+				<p:column headerText="Nome" sortBy="#{estado.nome}" filterBy="#{estado.nome}">
 					<h:outputText value="#{estado.nome}" />
+
 				</p:column>
 
-				<p:column headerText="Sigla" sortBy="#{estado.sigla}"
-					filterBy="#{estado.sigla}">
+				<p:column headerText="Sigla">
 					<h:outputText value="#{estado.sigla}" />
 				</p:column>
 
 				<p:column headerText="Opções">
-					<p:commandButton icon="ui-icon-trash"
-						actionListener="#{estadoBean.excluir}"
-						update=":mensagem :formListagem:tabela">
-						<p:confirm header="Confirmação" message="Deseja excluir o estado?"
-							icon="ui-icon-alert" />
-						<f:attribute name="estadoSelecionado" value="#{estado}" />
+				<!-- para usar icones pesquisar e usar o nome correto usando ui-icon  usando o actionListener mostra o caminho-->
+					<p:commandButton icon="ui-icon-trash" 
+					actionListener="#{estadoBean.excluir}" 
+					update=":mensagem :formListagem:tabela">
+					
+					<p:confirm header=" Confirmação" message ="Deseja excluir o estado?" icon="ui-icon-alert"/>
+					<!-- O estado selecionado é preenchido com os dados da linha que foi clicada, usa o estado que é a 
+					var que ja foi criada anteriormente -->
+					<f:attribute name="estadoSelecionado" value="#{estado}"/>
 					</p:commandButton>
-
-					<p:commandButton icon="ui-icon-pencil"
-						actionListener="#{estadoBean.editar}"
-						update=":formCadastro:painel" oncomplete="PF('dialogo').show();">
-						<f:attribute name="estadoSelecionado" value="#{estado}" />
+					
+					<p:commandButton icon="ui-icon-pencil" 
+					actionListener="#{estadoBean.editar}" 
+					update=":mensagem :formCadastro:painel" 
+					oncomplete="PF('dialogo').show(); ">
+					
+					<!-- O estado selecionado é preenchido com os dados da linha que foi clicada, usa o estado que é a 
+					var que ja foi criada anteriormente -->
+					<f:attribute name="estadoSelecionado" value="#{estado}"/>
 					</p:commandButton>
 				</p:column>
-			</p:dataTable>
 
+			</p:dataTable>
 			<p:confirmDialog global="true">
 				<p:commandButton value="Sim" type="button"
 					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
@@ -62,14 +70,15 @@
 		draggable="false" resizable="false" modal="true" closable="false">
 		<h:form id="formCadastro">
 			<h:panelGrid id="painel" columns="2">
-				<p:outputLabel value="Nome:" for="nome" />
+				<p:outputLabel value="Nome:" for="nome"/>
 				<p:inputText id="nome" maxlength="50" size="30"
 					value="#{estadoBean.estado.nome}" required="true"
-					requiredMessage="Campo nome obrigatório." />
+					requiredMessage="Campo nome Obrigatório!" />
 
-				<p:outputLabel value="Sigla:" />
-				<p:inputText maxlength="2" size="10"
-					value="#{estadoBean.estado.sigla}" />
+				<p:outputLabel value="Sigla:" for="sigla" />
+				<p:inputText id="sigla" maxlength="2" size="10"
+					value="#{estadoBean.estado.sigla}"
+					required="true" requiredMessage="Campo sigla Obrigatório!" />
 			</h:panelGrid>
 
 			<h:panelGrid columns="2">

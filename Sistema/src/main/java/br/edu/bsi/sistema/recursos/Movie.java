@@ -1,49 +1,43 @@
 package br.edu.bsi.sistema.recursos;
 
 public class Movie {
+	private String nome;
+	private String diretor;
+	private String genero;
+	private int duracao;
 	
-	private String movie;
-	private String directedBy;
-	private String genres;
-	private int runTime;
+	public String getNome() {
+		return nome;
+	}
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+	public String getDiretor() {
+		return diretor;
+	}
+	public void setDiretor(String diretor) {
+		this.diretor = diretor;
+	}
+	public String getGenero() {
+		return genero;
+	}
+	public void setGenero(String genero) {
+		this.genero = genero;
+	}
+	public int getDuracao() {
+		return duracao;
+	}
+	public void setDuracao(int duracao) {
+		this.duracao = duracao;
+	}
 	
-	public Movie(String movie,String directedBy, String genres, int runTime){
-		this.movie = movie;
-		this.directedBy = directedBy;
-		this.genres = genres;
-		this.runTime = runTime;
+	
+	public Movie(String nome, String diretor, String genero, int duracao){
+		this.nome= nome;
+		this.diretor= diretor;
+		this.genero = genero;
+		this.duracao = duracao;
 	}
-
-	public String getMovie() {
-		return movie;
-	}
-
-	public void setMovie(String movie) {
-		this.movie = movie;
-	}
-
-	public String getDirectedBy() {
-		return directedBy;
-	}
-
-	public void setDirectedBy(String directedBy) {
-		this.directedBy = directedBy;
-	}
-
-	public String getGenres() {
-		return genres;
-	}
-
-	public void setGenres(String genres) {
-		this.genres = genres;
-	}
-
-	public int getRunTime() {
-		return runTime;
-	}
-
-	public void setRunTime(int runTime) {
-		this.runTime = runTime;
-	}
+	
 	
 }

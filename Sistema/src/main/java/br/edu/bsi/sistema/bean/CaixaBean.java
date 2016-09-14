@@ -1,7 +1,6 @@
 package br.edu.bsi.sistema.bean;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -11,13 +10,14 @@ import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.ScheduleModel;
 
+import java.util.Date;
+
 import br.edu.bsi.sistema.dao.CaixaDAO;
 import br.edu.bsi.sistema.dao.FuncionarioDAO;
 import br.edu.bsi.sistema.domain.Caixa;
 import br.edu.bsi.sistema.domain.Funcionario;
 
 public class CaixaBean {
-	
 	private Caixa caixa;
 	
 	private ScheduleModel caixas;
@@ -50,16 +50,18 @@ public class CaixaBean {
 	
 	@PostConstruct
 	public void listar(){
-		caixas = new DefaultScheduleModel();
+		caixas=new DefaultScheduleModel();
 	}
 	
 	public void novo(SelectEvent evento){
+		//permite pegar a data do evento
 		caixa = new Caixa();
 		caixa.setDataAbertura((Date) evento.getObject());
+		
 		FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
 		funcionarios = funcionarioDAO.listar();
-	}
-	
+		
+	}	
 	public void salvar(){
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(caixa.getDataAbertura());
@@ -70,5 +72,4 @@ public class CaixaBean {
 		caixaDAO.salvar(caixa);
 		Messages.addGlobalInfo("Caixa aberto com sucesso");
 	}
-	
 }

@@ -32,32 +32,9 @@ public class Usuario extends GenericDomain {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	
-	public String getSenhaSemCriptografia() {
-		return senhaSemCriptografia;
-	}
-	
-	public void setSenhaSemCriptografia(String senhaSemCriptografia) {
-		this.senhaSemCriptografia = senhaSemCriptografia;
-	}
 
 	public Character getTipo() {
 		return tipo;
-	}
-
-	@Transient
-	public String getTipoFormatado() {
-		String tipoFormatado = null;
-
-		if (tipo == 'A') {
-			tipoFormatado = "Administrador";
-		} else if (tipo == 'B') {
-			tipoFormatado = "Balconista";
-		} else if (tipo == 'G') {
-			tipoFormatado = "Gerente";
-		}
-		
-		return tipoFormatado;
 	}
 
 	public void setTipo(Character tipo) {
@@ -66,17 +43,6 @@ public class Usuario extends GenericDomain {
 
 	public Boolean getAtivo() {
 		return ativo;
-	}
-	
-	@Transient
-	public String getAtivoFormatado(){
-		String ativoFormatado = "Não";
-		
-		if(ativo){
-			ativoFormatado = "Sim";
-		}
-		
-		return ativoFormatado;
 	}
 
 	public void setAtivo(Boolean ativo) {
@@ -89,5 +55,43 @@ public class Usuario extends GenericDomain {
 
 	public void setPessoa(Pessoa pessoa) {
 		this.pessoa = pessoa;
+	}
+	
+
+	public String getSenhaSemCriptografia() {
+		return senhaSemCriptografia;
+	}
+
+	public void setSenhaSemCriptografia(String senhaSemCriptografia) {
+		this.senhaSemCriptografia = senhaSemCriptografia;
+	}
+
+	// get porque pega o atributo a ser exibido dentro da tabela, metodo que
+	// muda a saida recebida pelo usuario
+	//transient salva a informação mas ela nao fica armazenada no banco de dados.
+	@Transient
+	public String getTipoFormatado() {
+		String tipoFormatado = null;
+
+		if (tipo == 'A') {
+			tipoFormatado = "Administrador";
+		} else if (tipo == 'B') {
+			tipoFormatado = "Balconista";
+		} else if (tipo == 'G') {
+			tipoFormatado = "Gerente";
+		}
+		return tipoFormatado;
+	}
+
+	// get porque pega o atributo a ser exibido dentro da tabela, metodo que
+	// muda a saida recebida pelo usuario
+	@Transient
+	public String getAtivoFormatado() {
+		String ativoFormatado = "Não";
+
+		if (ativo) {
+			ativoFormatado = "Sim";
+		}
+		return ativoFormatado;
 	}
 }

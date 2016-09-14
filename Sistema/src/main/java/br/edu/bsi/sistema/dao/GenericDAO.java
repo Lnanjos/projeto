@@ -1,45 +1,34 @@
 package br.edu.bsi.sistema.dao;
 
-import java.lang.reflect.ParameterizedType;
-import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+
 import br.edu.bsi.sistema.util.HibernateUtil;
 
+import java.lang.reflect.ParameterizedType;
+import java.util.List;
+
+// é a classe que ira receber as entidades 
 public class GenericDAO<Entidade> {
-	private Class<Entidade> classe;
+	// a classe que se comunicar com ela passara a ter esse valor
+
+	private Class<Entidade> classe;// metodo construtor
 
 	@SuppressWarnings("unchecked")
 	public GenericDAO() {
-		this.classe = (Class<Entidade>) ((ParameterizedType) getClass().getGenericSuperclass())
-				.getActualTypeArguments()[0];
-	}
-
-	public void salvar(Entidade entidade) {
-		Session sessao = HibernateUtil.getFabricaDeSessoes().openSession();
-		Transaction transacao = null;
-
-		try {
-			transacao = sessao.beginTransaction();
-			sessao.merge(entidade);
-			transacao.commit();
-		} catch (RuntimeException erro) {
-			if (transacao != null) {
-				transacao.rollback();
-			}
-			throw erro;
-		} finally {
-			sessao.close();
-		}
+		this.classe = (Class<Entidade>) ((ParameterizedType) getClass()
+				.getGenericSuperclass()).getActualTypeArguments()[0];
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<Entidade> listar() {
+		// acessa a fabrica de sessoes
 		Session sessao = HibernateUtil.getFabricaDeSessoes().openSession();
 		try {
+			// é um componente do hibernate para listagem e para consultar
 			Criteria consulta = sessao.createCriteria(classe);
 			List<Entidade> resultado = consulta.list();
 			return resultado;
@@ -49,12 +38,14 @@ public class GenericDAO<Entidade> {
 			sessao.close();
 		}
 	}
+	//lista ordenada
 	@SuppressWarnings("unchecked")
-	public List<Entidade> listarOrdenado(String campoOrdenacao) {
+	public List<Entidade> listarOrdenado(String campoOrdenacao){
 		Session sessao = HibernateUtil.getFabricaDeSessoes().openSession();
 		try {
+			// é um componente do hibernate para listagem e para consultar
 			Criteria consulta = sessao.createCriteria(classe);
-			//critério de ordenação
+			//critério da ordenação o asc significa que vai do maior para o menor, e coloca o parametro
 			consulta.addOrder(Order.asc(campoOrdenacao));
 			List<Entidade> resultado = consulta.list();
 			return resultado;
@@ -64,31 +55,66 @@ public class GenericDAO<Entidade> {
 			sessao.close();
 		}
 	}
-
+	
 	
 	@SuppressWarnings("unchecked")
-	public Entidade buscar(Long codigo) {
+	public Entidade buscar(Long codigo){
 		Session sessao = HibernateUtil.getFabricaDeSessoes().openSession();
-		try {
+		try{
 			Criteria consulta = sessao.createCriteria(classe);
 			consulta.add(Restrictions.idEq(codigo));
-			Entidade resultado = (Entidade) consulta.uniqueResult();
+			Entidade resultado = (Entidade)consulta.uniqueResult();
 			return resultado;
-		} catch (RuntimeException erro) {
+		} catch (RuntimeException erro){
 			throw erro;
-		} finally {
+		}finally{
 			sessao.close();
 		}
 	}
 	
-	//Método de exclusão do hibernate
-	public void excluir(Entidade entidade) {
+
+	// criar uma entidade do tipo entidade
+	public void salvar(Entidade entidade) {
+		// criar conecçao com o banco
 		Session sessao = HibernateUtil.getFabricaDeSessoes().openSession();
+		// é a acao que ocorre dentro da sessao
+		// criaa transação que ocorrerá
 		Transaction transacao = null;
 
 		try {
+			// inicia a transacao
 			transacao = sessao.beginTransaction();
+			// salva o registro no banco
+			//sessao.save(entidade);
+			// função do merge: se o objeto nao existe no banco ele vai salvar um novo, se ele ja existe ele vai atualizar
+			sessao.merge(entidade);
+			// commit encerra a transacao
+			transacao.commit();
+		} catch (RuntimeException erro) {
+			if (transacao != null) {
+				transacao.rollback();
+			}
+			throw erro;
+		} finally {
+			sessao.close();
+		}
+
+	}
+	public void excluir(Entidade entidade) {
+		// criar conecçao com o banco
+		Session sessao = HibernateUtil.getFabricaDeSessoes().openSession();
+		// é a acao que ocorre dentro da sessao
+		// criaa transação que ocorrerá
+		Transaction transacao = null;
+		//refere-se a uma acao que pode ou nao ser concluida, 
+		//se da tudo certo ele conclui, se nao da um rollback e volta para o inicio 
+	
+		try {
+			// inicia a transacao
+			transacao = sessao.beginTransaction();
+			// exclui o registro do banco
 			sessao.delete(entidade);
+			// commit encerra a transacao
 			transacao.commit();
 		} catch (RuntimeException erro) {
 			if (transacao != null) {
@@ -101,12 +127,20 @@ public class GenericDAO<Entidade> {
 	}
 	
 	public void editar(Entidade entidade) {
+		// criar conecçao com o banco
 		Session sessao = HibernateUtil.getFabricaDeSessoes().openSession();
+		// é a acao que ocorre dentro da sessao
+		// criaa transação que ocorrerá
 		Transaction transacao = null;
+		//refere-se a uma acao que pode ou nao ser concluida, 
+		//se da tudo certo ele conclui, se nao da um rollback e volta para o inicio 
 
 		try {
+			// inicia a transacao
 			transacao = sessao.beginTransaction();
+			// atualiza a o registro no banco
 			sessao.update(entidade);
+			// commit encerra a transacao
 			transacao.commit();
 		} catch (RuntimeException erro) {
 			if (transacao != null) {
@@ -117,4 +151,5 @@ public class GenericDAO<Entidade> {
 			sessao.close();
 		}
 	}
+
 }

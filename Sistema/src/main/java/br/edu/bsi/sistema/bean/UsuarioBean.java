@@ -2,12 +2,14 @@ package br.edu.bsi.sistema.bean;
 
 import java.io.Serializable;
 import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.omnifaces.util.Messages;
+
 import br.edu.bsi.sistema.dao.PessoaDAO;
 import br.edu.bsi.sistema.dao.UsuarioDAO;
 import br.edu.bsi.sistema.domain.Pessoa;
@@ -69,13 +71,15 @@ public class UsuarioBean implements Serializable {
 		}
 	}
 
-	public void salvar() {
+	public void salvar() { 
 		try {
 			UsuarioDAO usuarioDAO = new UsuarioDAO();
 			
-			//define o método e o algoritmo de criptografia, bem como o atributo que será criptografado
+			//define o metodo e o algoritmo de criptografia.
 			SimpleHash hash = new SimpleHash("md5", usuario.getSenha());
-			//excecuta as regras definidas no hash e transforma a senha em uma composição hexadecimal de 32 caracteres
+			
+			//executa as regras definidas no hash e 
+			//transforma a senha em composição em hexadecimal de 32 caracteres
 			usuario.setSenha(hash.toHex());
 			usuarioDAO.salvar(usuario);
 			

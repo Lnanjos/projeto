@@ -9,11 +9,12 @@ import javax.persistence.ManyToOne;
 
 @SuppressWarnings("serial")
 @Entity
-public class ItemVenda extends GenericDomain {
+public class ItemVenda extends GenericDomain{
+	
 	@Column(nullable = false)
 	private Short quantidade;
 	
-	@Column(nullable = false, precision = 8, scale = 2)
+	@Column(nullable = false, precision = 8, scale= 2)
 	private BigDecimal precoParcial;
 	
 	@ManyToOne
@@ -55,4 +56,6 @@ public class ItemVenda extends GenericDomain {
 	public void setFuncionario(Funcionario funcionario) {
 		this.funcionario = funcionario;
 	}
+	
+	
 }

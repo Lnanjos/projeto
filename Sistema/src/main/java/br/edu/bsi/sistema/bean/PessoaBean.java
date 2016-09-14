@@ -3,11 +3,14 @@ package br.edu.bsi.sistema.bean;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
+
 import org.omnifaces.util.Messages;
+
 import br.edu.bsi.sistema.dao.CidadeDAO;
 import br.edu.bsi.sistema.dao.EstadoDAO;
 import br.edu.bsi.sistema.dao.PessoaDAO;
@@ -21,8 +24,10 @@ import br.edu.bsi.sistema.domain.Pessoa;
 public class PessoaBean implements Serializable {
 	private Pessoa pessoa;
 	private List<Pessoa> pessoas;
+
 	private Estado estado;
 	private List<Estado> estados;
+
 	private List<Cidade> cidades;
 
 	public Pessoa getPessoa() {
@@ -79,12 +84,12 @@ public class PessoaBean implements Serializable {
 	public void novo() {
 		try {
 			pessoa = new Pessoa();
-			
+
 			estado = new Estado();
 
 			EstadoDAO estadoDAO = new EstadoDAO();
-			//listagem utilizada na combobox
 			estados = estadoDAO.listarOrdenado("nome");
+
 			cidades = new ArrayList<>();
 		} catch (RuntimeException erro) {
 			Messages.addGlobalError("Ocorreu um erro ao tentar gerar uma nova pessoa");
@@ -93,18 +98,32 @@ public class PessoaBean implements Serializable {
 	}
 
 	public void editar(ActionEvent evento) {
+		try {
+			pessoa = (Pessoa) evento.getComponent().getAttributes()
+					.get("pessoaSelecionada");
+			
 
+		} catch (RuntimeException erro) {
+			Messages.addGlobalError("Ocorreu um erro ao tentar selecionar uma cidade");
+			erro.printStackTrace();
+
+		}
 	}
 
 	public void salvar() {
 		try {
 			PessoaDAO pessoaDAO = new PessoaDAO();
 			pessoaDAO.salvar(pessoa);
+
 			pessoas = pessoaDAO.listarOrdenado("nome");
+
 			pessoa = new Pessoa();
+
 			estado = new Estado();
+
 			EstadoDAO estadoDAO = new EstadoDAO();
 			estados = estadoDAO.listarOrdenado("nome");
+
 			cidades = new ArrayList<>();
 		} catch (RuntimeException erro) {
 			Messages.addGlobalError("Ocorreu um erro ao tentar salvar a pessoa");
@@ -113,6 +132,20 @@ public class PessoaBean implements Serializable {
 	}
 
 	public void excluir(ActionEvent evento) {
+		try {
+			pessoa = (Pessoa) evento.getComponent().getAttributes()
+					.get("pessoaSelecionada");
+
+			PessoaDAO pessoaDAO = new PessoaDAO();
+			pessoaDAO.excluir(pessoa);
+
+			pessoas = pessoaDAO.listar();
+
+			Messages.addGlobalInfo("Pessoa excluída com sucesso");
+		} catch (RuntimeException erro) {
+			Messages.addGlobalError("Ocorreu um erro ao tentar salvar");
+			erro.printStackTrace();
+		}
 
 	}
 

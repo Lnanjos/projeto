@@ -1,4 +1,5 @@
 package br.edu.bsi.sistema.domain;
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -8,9 +9,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@SuppressWarnings("serial")
+@SuppressWarnings ("serial")
 @Entity
-public class Funcionario extends GenericDomain {
+public class Funcionario extends GenericDomain{
 	@Column(length = 15, nullable = false)
 	private String carteiraTrabalho;
 	
@@ -45,4 +46,7 @@ public class Funcionario extends GenericDomain {
 	public void setPessoa(Pessoa pessoa) {
 		this.pessoa = pessoa;
 	}
+	
+	
+	
 }

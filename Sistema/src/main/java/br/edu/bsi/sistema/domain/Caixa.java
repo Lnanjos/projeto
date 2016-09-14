@@ -24,6 +24,7 @@ public class Caixa extends GenericDomain{
 	
 	@ManyToOne
 	@JoinColumn(nullable = false)
+	
 	private Funcionario funcionario;
 
 	public Date getDataAbertura() {
@@ -57,5 +58,7 @@ public class Caixa extends GenericDomain{
 	public void setFuncionario(Funcionario funcionario) {
 		this.funcionario = funcionario;
 	}
+	
+	
 	
 }

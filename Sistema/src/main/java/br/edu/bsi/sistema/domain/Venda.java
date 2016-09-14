@@ -2,6 +2,7 @@ package br.edu.bsi.sistema.domain;
 
 import java.math.BigDecimal;
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -14,11 +15,12 @@ import javax.persistence.TemporalType;
 public class Venda extends GenericDomain {
 	@Column(nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
+	// timestamp para mostrar a data e o horario juntos
 	private Date horario;
-	
+
 	@Column(nullable = false, precision = 8, scale = 2)
 	private BigDecimal precoTotal;
-	
+
 	@ManyToOne
 	private Cliente cliente;
 	
@@ -56,5 +58,5 @@ public class Venda extends GenericDomain {
 
 	public void setFuncionario(Funcionario funcionario) {
 		this.funcionario = funcionario;
-	}
+	}	
 }

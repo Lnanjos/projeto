@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Funcionarios</title>
+</h:head>
+<h:body>
+	<!-- form - tag de formulario -->
+	<h:form>
+		<p:layoutUnit>
+			<ui:include src="/Template/menu.xhtml"></ui:include>
+		</p:layoutUnit>
+
+		<!-- Criação de painel e nome do cabeçalho -->
+		<p:panel header="Funcionarios - Listagem">
+			<p:dataTable emptyMessage="Nenhum registro encontrado"
+				paginator="true" rows="10">
+
+				<p:column headerText="Nome">
+
+				</p:column>
+				<p:column headerText="Carteira de trabalho">
+
+				</p:column>
+				<p:column headerText="Data de admissão">
+
+				</p:column>
+				<p:column headerText="Opções">
+
+				</p:column>
+
+				<f:facet name="footer">
+					<p:commandButton value="Novo" oncomplete="PF('dialogo').show();"></p:commandButton>
+				</f:facet>
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+
+	<!-- Criação da caixa de dialogo novo -->
+	<p:dialog header="Funcionarios - cadastros" widgetVar="dialogo"
+		draggable="false" resizable="false" modal="true" closable="false">
+		<h:form>
+			<p:panelGrid columns="2">
+				<p:outputLabel value="Nome"></p:outputLabel>
+
+				<p:selectOneMenu filter="true"
+					value="#{funcionarioBean.funcionario.pessoa}"
+					converter="omnifaces.SelectItemsConverter">
+					<f:selectItem noSelectionOption="true"
+						itemLabel="Selecione uma pessoa" />
+					<f:selectItems value="#{funcionarioBean.pessoas}" var="pessoa"
+						itemValue="#{pessoa}" itemLabel="#{pessoa.nome}" />
+				</p:selectOneMenu>
+				<p:outputLabel value="Carteira de trabalho"></p:outputLabel>
+				<p:inputText maxlength="50" size="30"></p:inputText>
+				<p:outputLabel value="Data de admissão"></p:outputLabel>
+				<p:calendar id="popup"></p:calendar>
+			</p:panelGrid>
+			<p:panelGrid columns="2">
+				<p:button value="Salvar"></p:button>
+				<p:button value="Fechar" oncomplete="PF('dialogo').close();"></p:button>
+			</p:panelGrid>
+		</h:form>
+	</p:dialog>
+</h:body>
+</html>

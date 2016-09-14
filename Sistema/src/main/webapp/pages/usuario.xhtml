@@ -10,7 +10,6 @@
 </h:head>
 <h:body>
 	<p:growl id="mensagem" />
-	<p:outputLabel  value="#{autenticacaoBean.usuarioLogado.pessoa.nome}"/>
 	<h:form id="formListagem">
 		<p:panel header="Usuários - Listagem">
 			<p:dataTable id="tabela" emptyMessage="Nenhum registro encontrado."
@@ -70,9 +69,12 @@
 					requiredMessage="O campo 'Senha' é obrigatório"
 					validatorMessage="Informe uma senha de 6 a 8 caracteres">
 					<f:validateLength minimum="6" maximum="8" />
-	
+
 				</p:password>
 
+				<!-- itemvalue:  é o campo que salva o que vai para o banco de dados
+				itemLabel: é o campo com o texto que vai aparecer para o usuario
+				//o radio:  é o grupo de dados, pode fazer um grupo de botoes por ex  -->
 				<p:outputLabel for="tipo" value="Tipo:" />
 				<p:selectOneRadio id="tipo" value="#{usuarioBean.usuario.tipo}"
 					required="true" requiredMessage="O campo 'Tipo' ´obrigatório">

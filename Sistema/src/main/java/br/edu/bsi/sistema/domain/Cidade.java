@@ -5,12 +5,17 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+//dentro do entity pode-se alterar o nome da entidade do banco (name =)
 @SuppressWarnings("serial")
+//vai criar a coluna no banco com o nome da minha classe
 @Entity
 public class Cidade extends GenericDomain {
 	@Column(length = 50, nullable = false)
 	private String nome;
-	
+
+	// cria uma relação de cardinalidade de muitos para muitos
+
+	// faz junção entre as colunas, como chave estrangeira
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private Estado estado;
@@ -30,4 +35,5 @@ public class Cidade extends GenericDomain {
 	public void setEstado(Estado estado) {
 		this.estado = estado;
 	}
+
 }

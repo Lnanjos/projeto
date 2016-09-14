@@ -1,35 +1,23 @@
 package br.edu.bsi.sistema.bean;
 
-
-
 import java.io.Serializable;
-import java.sql.Connection;
 import java.util.List;
-import java.util.Map;
-
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
-
-
-import org.omnifaces.util.Faces;
 import org.omnifaces.util.Messages;
-import org.primefaces.component.datatable.DataTable;
-
 import br.edu.bsi.sistema.dao.EstadoDAO;
 import br.edu.bsi.sistema.domain.Estado;
-import br.edu.bsi.sistema.util.HibernateUtil;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperPrintManager;
-
 @SuppressWarnings("serial")
 @ManagedBean
+// A tela se comunica com a parte logica
 @ViewScoped
+// faz com que quando abre a tela entende que ela esta ligada com a visao que ja
+// foi criada anteriormente
 public class EstadoBean implements Serializable {
 	private Estado estado;
+
 	private List<Estado> estados;
 
 	public Estado getEstado() {
@@ -53,52 +41,73 @@ public class EstadoBean implements Serializable {
 		try {
 			EstadoDAO estadoDAO = new EstadoDAO();
 			estados = estadoDAO.listar();
+
 		} catch (RuntimeException erro) {
-			Messages.addGlobalError("Ocorreu um erro ao tentar listar os estados");
+			Messages.addGlobalError("Ocorreu um erro");
 			erro.printStackTrace();
+
 		}
 	}
 
 	public void novo() {
 		estado = new Estado();
+		// metodo que gera um novo objeto
 	}
-
+	@PostConstruct
 	public void salvar() {
 		try {
 			EstadoDAO estadoDAO = new EstadoDAO();
 			estadoDAO.salvar(estado);
 
+			// implementação para atraves da list, e cada vez que for salvo sera
+			// listado novamente os dados e serao mostrados na tela
+			// dessa forma renovo a minha tabela de estados a cada exclusão ou
+			// edição de dados.
+			// instancia-se um novo para pode fazer os outros metodos, muda o
+			// merge no genericDAO
 			estado = new Estado();
 			estados = estadoDAO.listar();
 
 			Messages.addGlobalInfo("Estado salvo com sucesso");
 		} catch (RuntimeException erro) {
-			Messages.addGlobalError("Ocorreu um erro ao tentar salvar o estado");
+			Messages.addGlobalError("Ocorreu um erro ao tentar salvar");
 			erro.printStackTrace();
 		}
 	}
 
+	// criar o método editar, usando o actionevent que gera um evento na pagina,
+	// vai editar um estado,
+	// meu getcomponent é a linha adicionada pela caneta, ai pega os atributos
+	// do componente, e o estado selecionado
+	// pega o elemento atraves do get e usa coo atributo.para isso modifica o
+	// metodo salvar
+	public void editar(ActionEvent evento) {
+		estado = (Estado) evento.getComponent().getAttributes()
+				.get("estadoSelecionado");
+		EstadoDAO estadoDAO = new EstadoDAO();
+		estadoDAO.editar(estado);
+	}
+
+	// o metodo excluir funciona como o editar, a cada atualização a lista é
+	// gerada novamente com os dados que ainda estao salvos
 	public void excluir(ActionEvent evento) {
 		try {
-			estado = (Estado) evento.getComponent().getAttributes().get("estadoSelecionado");
+			estado = (Estado) evento.getComponent().getAttributes()
+					.get("estadoSelecionado");
 
 			EstadoDAO estadoDAO = new EstadoDAO();
 			estadoDAO.excluir(estado);
-			
+
 			estados = estadoDAO.listar();
 
-			Messages.addGlobalInfo("Estado removido com sucesso");
+			Messages.addGlobalInfo("Estado excluido com sucesso");
 		} catch (RuntimeException erro) {
-			Messages.addFlashGlobalError("Ocorreu um erro ao tentar remover o estado");
+			Messages.addGlobalError("Ocorreu um erro ao tentar salvar");
 			erro.printStackTrace();
 		}
 	}
 	
-	public void editar(ActionEvent evento){
-		estado = (Estado) evento.getComponent().getAttributes().get("estadoSelecionado");
-	}
-	
-	public void imprimir() {
+	/*public void imprimir() {
 		try {
 			
 			DataTable tabela = (DataTable) Faces.getViewRoot().findComponent("formListagem:tabela");
@@ -119,7 +128,5 @@ public class EstadoBean implements Serializable {
 		} catch (JRException erro) {
 			Messages.addGlobalError("Ocorreu um erro ao tentar gerar o relatório");
 			erro.printStackTrace();
-		}
+		}*/
 	}
-
-}
