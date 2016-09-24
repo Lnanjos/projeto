@@ -6,6 +6,7 @@
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<h:outputStylesheet library="css" name="style.css" />
 	<title>Vendas</title>
 </h:head>
 <h:body>
@@ -83,16 +84,19 @@
 			</p:dataTable>
 		</p:panel>
 
+
 		<p:panel header="Finalização">
-			<h:panelGrid id="painelFinalizacao" columns="3">
+			<h:panelGrid id="painelFinalizacao" columns="3" >
 				<p:outputLabel value="Total: R$" />
 				<h:outputText value="#{vendaBean.venda.precoTotal}">
 					<f:convertNumber locale="pt_BR" minFractionDigits="2" />
 				</h:outputText>
-				<p:commandButton value="Finalizar"
+
+				<p:commandButton value="Finalizar" class="botao"
 					actionListener="#{vendaBean.finalizar}"
 					update=":mensagem :formularioFinalizar:painelFinalizar"
-					oncomplete="PF('dialogo').show();"   />
+					oncomplete="PF('dialogo').show();" />
+
 			</h:panelGrid>
 		</p:panel>
 	</h:form>

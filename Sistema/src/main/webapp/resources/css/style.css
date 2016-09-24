@@ -1,0 +1,12 @@
+@CHARSET "UTF-8";
+
+.botao {
+	margin-left: 1100px;
+	float: left;
+}
+
+.ui-button-text {
+	color: #008080;
+	font-family: Calibri;
+	font-size: 18px;
+}
