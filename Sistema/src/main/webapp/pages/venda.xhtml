@@ -86,7 +86,7 @@
 
 
 		<p:panel header="Finalização">
-			<h:panelGrid id="painelFinalizacao" columns="3" >
+			<h:panelGrid id="painelFinalizacao" columns="3">
 				<p:outputLabel value="Total: R$" />
 				<h:outputText value="#{vendaBean.venda.precoTotal}">
 					<f:convertNumber locale="pt_BR" minFractionDigits="2" />
@@ -141,7 +141,9 @@
 			</h:panelGrid>
 
 			<h:panelGrid columns="2">
-				<p:commandButton value="Salvar" />
+				<p:commandButton value="Salvar" actionListener="#{vendaBean.salvar}"
+					oncomplete="PF('dialogo').hide();"
+					update=":formulario:painelFinalizacao :formularioFinalizar:painelFinalizar :formulario:tabelaCesta" />
 				<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
 			</h:panelGrid>
 		</h:form>

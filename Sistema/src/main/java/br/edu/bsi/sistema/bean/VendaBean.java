@@ -16,6 +16,7 @@ import org.omnifaces.util.Messages;
 import br.edu.bsi.sistema.dao.ClienteDAO;
 import br.edu.bsi.sistema.dao.FuncionarioDAO;
 import br.edu.bsi.sistema.dao.ProdutoDAO;
+import br.edu.bsi.sistema.dao.VendaDAO;
 import br.edu.bsi.sistema.domain.Cliente;
 import br.edu.bsi.sistema.domain.Funcionario;
 import br.edu.bsi.sistema.domain.ItemVenda;
@@ -181,4 +182,30 @@ public class VendaBean implements Serializable {
 					itemVenda.getPrecoParcial()));
 		}
 	}
+	
+	public void salvar(){
+		try {
+			if (venda.getPrecoTotal().signum() == 0) {
+				Messages.addGlobalError("Informe pelo menos um produto a ser comprado");
+			}
+			
+			VendaDAO vendaDAO = new VendaDAO();
+			vendaDAO.salvar(venda, itensVenda);
+			
+			venda = new Venda();
+			
+			venda.setPrecoTotal(new BigDecimal("0.00"));
+			
+			ProdutoDAO produtoDAO = new ProdutoDAO();
+			produtos = produtoDAO.listarOrdenado("descricao");
+			
+			itensVenda = new ArrayList<>();
+			
+			Messages.addGlobalInfo("Venda realizada com sucesso");
+		} catch (Exception e) {
+			Messages.addGlobalError("Ocorreu um erro ao tentar salvar");
+			e.printStackTrace();
+		}
+	}
+			
 }
